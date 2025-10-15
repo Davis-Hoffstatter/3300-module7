@@ -17,19 +17,22 @@
     <main>
         <section id="introduction">
             <h2>1. Introduction</h2>
+
             <p>
-                According to PEW Research1, 96% of adults between 18-29 occasionally consult reviews before making a
+                According to PEW Research<sup>1</sup>, 96% of adults between 18–29 occasionally consult reviews before making a
                 purchase. But does this mean that higher ratings result in more product sales? Specifically, what do
                 higher ratings indicate for video game sales? Maybe higher ratings lead to more game sales. But could
                 some more obscure games with a dedicated group of followers receive higher ratings than popular
                 games with significant sales volume? I am also curious whether there has been an increase in the
-                production of games in recent years and, if so, what affect this increase has on the quality of games
+                production of games in recent years and, if so, what effect this increase has on the quality of games
                 based on review scores. Is it possible that an increase in the number of games results in review scores
                 decreasing with the oversaturation of video game releases?
+            </p>
 
+            <p>
                 In this project, I plan to use Metacritic’s user and critic review scores to see if there is a correlation
                 between the scores of a game and its overall sales. I will be joining the review data with sales data
-                obtained from VGChartz. <sup>1</sup>.
+                obtained from VGChartz<sup>1</sup>.
             </p>
 
         </section>
@@ -45,14 +48,16 @@
             <p>
                 I collected data from Metacritic, which contained user (user score) and critic (meta score) review scores
                 for each game.
-
+            </p>
+            <p>
                 Metacritic’s data was found on 186 different web pages. I wrote a web crawling script to collect all data
                 across these 186 pages. I collected the game title, summary, platform, user score, meta score, and
                 release date for 18,526 games. Some of the results were the same game that was released on different
                 platforms, which is essential to consider when I begin merging the data. I created a data frame which is
                 contained in the Metacritic.csv file in the project folder. The web crawling script that I wrote is
                 contained in the metacritic.R file in the project folder.
-
+            </p>
+            <p>
                 The data didn’t need much cleaning; however, to make the platform match with the VGChartz data, I
                 created a dictionary to convert Metacritic’s platform data to match VGChartz. This cleaning was done in
                 the file combining_vgs.R.
@@ -62,18 +67,22 @@
             <p>
                 The website VGChartz provides sales data about the number of units of each game/platform
                 combination sold.
-
+            </p>
+            <p>
                 The information was contained in 1,249 web pages. Due to the extensive nature of the data, I decided to
                 break the web crawling results into six different CSV files (VGChartz_0 – 5.csv), all contained in the
                 project folder. The web crawling script is contained in the vgchartz.R file in the project folder.
+            </p>
 
+            <p>
                 I collected the game, platform, release date, publisher, and sales data from PAL, Japan, and North
                 America as well as total game sales for 62,398 games. Like the Metacritic data, some of these games
                 were released on multiple platforms, which count as a unique observation in the data. Another
                 interesting thing to note is that series were counted in this data frame alongside their individual
                 counterparts. For example, Super Mario is counted as a series, but each entry in the series is also
                 contained in the dataset. This was handled in the cleaning of the data.
-
+            </p>
+            <p>
                 In cleaning the data, I merged all six VGChartz .csv files into one complete file using row bind to build a
                 complete data frame. I also removed unnecessary columns, trimmed the white space on the title, and
                 returned only the distinct values of the dataset. When I read the CSV into the script, I created NA values
@@ -82,7 +91,7 @@
             </p>
 
              <h3>2.3 Combining Reviews and Sales</h3>
-             <p>
+            <p>
                 Since both data sets included the same game title multiple times based on the platform, I had to merge
                 based on both the game title and platform. Both data sets are also vastly different in the number of
                 observations. I decided to create two separate data sets in merging. One data set is the intersection of
@@ -90,7 +99,8 @@
                 contains all rows from both data sets. All this work was done in the combining_vgs.R file in the project
                 folder. Next I imported both data frames into the cleaning_vgs.R file in the project folder for further
                 cleaning.
-
+            </p>
+            <p>
                 Since the differentiator between both data frames is their number of rows and most of my cleaning was
                 regarding the columns, I created a function to iterate over both data sets to clean them. This cleaning
                 included trimming the white space on the summary and publisher, turning the sales data into numeric,
@@ -100,8 +110,7 @@
                 column, and the index columns. I exported these datasets to VGSales_union.csv and
                 VGSales_intersect.csv, respectively. The union had 68,288 observations, and the intersect had 12,288
                 observations. A description of each variable is contained in Table 1.
-
-             </p>
+            </p>
 
              <p class="table-label"> Table 1 Data Dictionary</p>
              <table>
@@ -186,7 +195,8 @@
                 correlation coefficient between total sales and meta score was .248, and it was .102 between total sales
                 and user score. While there was a moderate correlation between user score and meta score at .524, it is
                 nowhere near as strong as it was between the two sales variables.
-
+            </p>
+            <p>
                 I first thought this weaker correlation might be due to the difference in rating scales between the two
                 groups of people. To prove this was not the case, I created a boxplot of the two scores, using ggplot4.
                 This plot is shown in Figure 1. While there might be slight differences in the interquartile range, the
@@ -197,11 +207,13 @@
                 number of low reviews. This may be part of the reason why the meta score has a slightly better
                 correlation with sales than the user score.
             </p>
+            <p>
                 The meta score is a better predictor of sales than the user score. While the correlation isn’t very strong,
                 it does exist. There is some basis for the reason behind this correlation. Many companies send out
                 review copies to critics in hopes that the reviews will boost sales5. Critics usually publish their review
                 scores in the days before a game is released. This increases excitement around the game before the
                 general release date benefitting both the video game company and the critic.
+            </p>
             <p>
                 However, the correlation appears to show that there probably isn’t as much benefit in this manufacturer
                 critic relationship as the manufacturer would like. I initially thought the weak correlation might be due
@@ -341,6 +353,8 @@
                 This correlation does not apply to the number of games released and the publisher’s average meta
                 score. The correlation coefficient between these two variables is -.013, which is evidence of no
                 relationship between the number of games released and the average meta score.
+            </p>
+            <p>
                 With the strong correlation between the number of games and total sales, we can predict that a
                 company’s average meta score doesn’t significantly impact its total sales. When we compare the
                 average meta score of 71.145 to the values in Table 2 (above), we prove that meta scores and sales
@@ -431,6 +445,9 @@
                 the sum of sales, and the number of games. To make the dates easier to use in a scatterplot, I decided to
                 change the data type to date format. I did this by setting the column as a date with the day value being
                 the first day of the month the game was released.
+            </P>
+
+            <p>
                 To start my analysis, I wanted to see if there is an increase in the number of games being developed
                 over time. The correlation coefficient between the release date and the number of games released is
                 .533, which is evidence of some correlation, but it is not especially strong. Next, I created a plot of the
@@ -443,12 +460,18 @@
                 The point at the end should be ignored, as it includes two games yet to be released. The outlier of
                 games released in 2020 should also be ignored, as many games were misclassified to this date by the
                 websites.
+            </p>
+
+            <p>
                 Figure 5 reveals a large peak in the number of games released around 2010 before decreasing again. The
                 sales of games did not see this same spike. The purchase of games released after 2010 remained
                 somewhat consistent, unlike the number of games released in that same period. The increase in games
                 around the late 2000s is likely due to the release of new video game consoles that reached many
                 mainstream markets. Many video game consoles could also play Blu-ray discs and had multimedia
                 features7, which increased their popularity.
+            </p>
+
+            <p>
                 To further analyze sales, I looked at how the passage of time has affected sales globally versus in North
                 America. The correlation coefficient between total sales and the release date is .273, much lower than
                 for the number of games released and the release date. This also holds for the correlation between
